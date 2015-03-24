@@ -2,7 +2,8 @@ FROM debian:sid
 
 RUN apt-get update && apt-get install -y \
   build-essential \
-  g++
+  g++ \
+  python
 
 COPY . /src/node-core
 
