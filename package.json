@@ -1,0 +1,14 @@
+{
+  "name": "node-env",
+  "version": "0.1.0",
+  "description": "Your swiss army knife to hack on the Node.js core",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Luca Maraschi",
+  "license": "ISC",
+  "dependencies": {
+    "cmdln": "^3.2.0"
+  }
+}

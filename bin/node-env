@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var fs = require('fs');
+var cmdln = require('cmdln');
+var utils = require('utils');
+
+var dockerfile = fs.readSync(path.combine('..', 'resources', 'Dockerfile'));
+var CURRENT_DIR = process.cwd();
+
+function Coremon() {
+  cmdln.Cmdln.call(this, {
+    name: 'node-env',
+    desc: 'Hi, I am Charles, your personal Node.js Core Butler. How can I help you?'
+  });
+}
+
+utils.inehrits(Coremon, cmdln.Cmdln);
+
+cmdln.main(new Coremon());
