@@ -1,11 +1,12 @@
 #!/usr/bin/env node
+'use strict';
 
 var path = require('path');
-var fs = require('fs');
 var cmdln = require('cmdln');
 var utils = require('utils');
+//var coremonLib = require('../lib');
 
-var dockerfile = fs.readSync(path.combine('..', 'resources', 'Dockerfile'));
+var dockerfilePath = path.combine('..', 'resources', 'Dockerfile');
 var CURRENT_DIR = process.cwd();
 
 function Coremon() {
@@ -16,5 +17,36 @@ function Coremon() {
 }
 
 utils.inehrits(Coremon, cmdln.Cmdln);
+
+Coremon.prototype.do_up = function(ubcmd, opts, args, cb) {
+  //exec docker build
+  //exec docker run -d -v {{node-core-path}}:/src/node-core --name nodecore
+
+  cb();
+};
+
+Coremon.prototype.do_up.options = [
+    {
+        names: ['help', 'h'],
+        type: 'bool',
+        help: 'Show this help.'
+    },
+    {
+        names: ['core-path', 'cp'],
+        helpArg: 'PATH',
+        type: 'string',
+        default: '.',
+        help: 'The path to the node-core source code location'
+    }
+];
+
+Coremon.prototype.do_up.help = (
+    'Crush your enemies.\n'
+    + '\n'
+    + 'Usage:\n'
+    + '     {{name}} crush [OPTIONS] [ENEMIES...]\n'
+    + '\n'
+    + '{{options}}'
+);
 
 cmdln.main(new Coremon());
