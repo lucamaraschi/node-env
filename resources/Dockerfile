@@ -3,7 +3,8 @@ FROM debian:sid
 RUN apt-get update && apt-get install -y \
   build-essential \
   g++ \
-  python
+  python \
+  libssl-dev
 
 COPY . /src/node-core
 

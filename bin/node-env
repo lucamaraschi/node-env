@@ -4,6 +4,7 @@
 var path = require('path');
 var cmdln = require('cmdln');
 var utils = require('utils');
+var exec = require('child_process').exec;
 //var coremonLib = require('../lib');
 
 var dockerfilePath = path.combine('..', 'resources', 'Dockerfile');
@@ -18,8 +19,19 @@ function Coremon() {
 
 utils.inehrits(Coremon, cmdln.Cmdln);
 
-Coremon.prototype.do_up = function(ubcmd, opts, args, cb) {
-  //exec docker build
+Coremon.prototype.do_up = function(subcmd, opts, args, cb) {
+  if (opts.help) {
+    this.do_help('help', {}, [subcmd], cb);
+  }
+
+  var executionPath = opts.path;
+
+  exec(util.format('docker build %s', executionPath),
+      function(error, stdout, stderr) {
+          
+      });
+
+  //exec docker build .
   //exec docker run -d -v {{node-core-path}}:/src/node-core --name nodecore
 
   cb();
