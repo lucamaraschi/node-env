@@ -3,12 +3,14 @@
 
 var path = require('path');
 var cmdln = require('cmdln');
-var utils = require('utils');
+var util = require('util');
 var exec = require('child_process').exec;
+var bunyan = require('bunyan');
+var log = bunyan.createLogger({ name: 'my-node' });
 //var coremonLib = require('../lib');
 
-var dockerfilePath = path.combine('..', 'resources', 'Dockerfile');
-var CURRENT_DIR = process.cwd();
+var dockerfilePath = path.resolve('..', 'resources', 'Dockerfile');
+//var CURRENT_DIR = process.cwd();
 
 function Coremon() {
   cmdln.Cmdln.call(this, {
@@ -17,22 +19,29 @@ function Coremon() {
   });
 }
 
-utils.inehrits(Coremon, cmdln.Cmdln);
+util.inherits(Coremon, cmdln.Cmdln);
 
 Coremon.prototype.do_up = function(subcmd, opts, args, cb) {
   if (opts.help) {
     this.do_help('help', {}, [subcmd], cb);
   }
 
-  var executionPath = opts.path;
+  var cmds = [
+    util.format('docker build %s', dockerfilePath),
+    'docker run -d'
+  ];
 
-  exec(util.format('docker build %s', executionPath),
-      function(error, stdout, stderr) {
-          
-      });
+  cmds.forEach(function(command) {
+    console.log('executing command');
+    exec(command, function(error, stdout, stderr) {
+      process.stdout.pipe(stdout);
+      process.stderr.pipe(stderr);
 
-  //exec docker build .
-  //exec docker run -d -v {{node-core-path}}:/src/node-core --name nodecore
+      if (error) {
+        log.error(error);
+      }
+    });
+  });
 
   cb();
 };
